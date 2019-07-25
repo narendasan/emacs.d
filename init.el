@@ -85,7 +85,14 @@
   (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package counsel :ensure t)
-  
+
+(use-package doom-modeline
+  :ensure t
+  :config
+  (setq doom-modeline-github t)
+  (setq doom-modeline-env-version t)
+  :hook (after-init . doom-modeline-mode))
+
 
 (use-package ivy :ensure t
   :diminish (ivy-mode . "") ; does not display ivy in the modeline
@@ -163,6 +170,12 @@
   (define-key global-map (kbd "C-c C-SPC") 'ace-jump-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package multiple-cursors
+  :config
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (global-unset-key (kbd "M-<down-mouse-1>")) (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package spaceline-config
@@ -326,7 +339,7 @@
  '(flycheck-python-pylint-executable "python3")
  '(package-selected-packages
    (quote
-    (pretty-mode rust-mode nix-mode toml company-c-headers protobuf-mode beacon yaml-mode impatient-mode markdown-mode+ treemacs cuda-mode dockerfile-mode toml-mode tabbar all-the-icons-dired company flycheck neotree spaceline ace-jump-mode magit expand-region smex ido-complete-space-or-hyphen ido-ubiquitous org-bullets doom-themes use-package)))
+    (spaceline-all-the-icons multiple-cursors bazel-mode pretty-mode rust-mode nix-mode toml company-c-headers protobuf-mode beacon yaml-mode impatient-mode markdown-mode+ treemacs cuda-mode dockerfile-mode toml-mode tabbar all-the-icons-dired company flycheck neotree spaceline ace-jump-mode magit expand-region smex ido-complete-space-or-hyphen ido-ubiquitous org-bullets doom-themes use-package)))
  '(tabbar-mode t nil (tabbar))
  '(tabbar-separator (quote (0.5)))
  '(treemacs-follow-mode t)
