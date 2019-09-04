@@ -1,4 +1,5 @@
 
+
 (setq debug-on-quit t)
 (setq debug-on-error t)
 (add-hook 'after-init-hook (lambda ()
@@ -23,6 +24,44 @@
 (setq use-package-always-ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  ;; Set the title
+  (setq dashboard-banner-logo-title "Welcome to Emacs")
+  ;; Set the banner
+  ;; (setq dashboard-startup-banner 'official)
+  ;; Value can be
+  ;; 'official which displays the official emacs logo
+  ;; 'logo which displays an alternative emacs logo
+  ;; 1, 2 or 3 which displays one of the text banners
+  ;; "path/to/your/image.png" which displays whatever image you would prefer
+  
+  ;; Content is not centered by default. To center, set
+  (setq dashboard-center-content t)
+  (setq dashboard-image-banner-max-height 500)
+  
+  ;; To disable shortcut "jump" indicators for each section, set
+  (setq dashboard-show-shortcuts nil)
+  (setq dashboard-items '((recents  . 5)
+                          (bookmarks . 5)
+                          (projects . 5)
+                          (agenda . 5)
+                          (registers . 5))))
+(use-package xkcd
+  :ensure t
+  :config
+  ;; to update cached xkcd
+  (with-temp-buffer
+    (xkcd)
+    (xkcd-kill-buffer))
+  
+  ;; setting dashboard image (png)
+  (let ((last-xkcd-png (concat xkcd-cache-dir (number-to-string xkcd-latest) ".png")))
+    (if (file-exists-p last-xkcd-png)
+        (setq dashboard-banner-official-png last-xkcd-png))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -247,6 +286,12 @@
 ;;         '(("\\.\\(mp4\\|mp3\\|webm\\|avi\\|flv\\|mov\\)$" "open" (file))))
 ;;  (openwith-mode 1))
 
+(use-package bazel-mode
+  :ensure t
+  :commands (bazel-mode)
+  :mode (("\\BUILD\\'" . bazel-mode)
+         ("\\.bzl\\'" . bazel-mode)))
+
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
@@ -254,7 +299,7 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
-    
+        
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;eshell;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; (require 'cl-lib)
@@ -420,7 +465,7 @@ That is, a string used to represent it on the tab bar."
            ("int" .      #x2124)
            ("float" .    #x211d)
            ("str" .      #x1d54a)
-           ("True" .     #x1d54b)
+           ("True" .     ⊤)
            ("False" .    #x1d53d)
            ;; Mypy
            ("Dict" .     #x1d507)
