@@ -1,5 +1,3 @@
-
-
 (setq debug-on-quit t)
 (setq debug-on-error t)
 (add-hook 'after-init-hook (lambda ()
@@ -14,8 +12,9 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(setq package-check-signature nil)
 (setq package-enable-at-startup nil)
-(package-initialize)
+;(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -27,7 +26,6 @@
 (use-package dashboard
   :ensure t
   :config
-  (dashboard-setup-startup-hook)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   ;; Set the title
   (setq dashboard-banner-logo-title "Welcome to Emacs")
@@ -47,9 +45,10 @@
   (setq dashboard-show-shortcuts nil)
   (setq dashboard-items '((recents  . 5)
                           (bookmarks . 5)
-                          (projects . 5)
                           (agenda . 5)
-                          (registers . 5))))
+                          (registers . 5)))
+  (dashboard-setup-startup-hook))
+
 (use-package xkcd
   :ensure t
   :config
@@ -79,7 +78,7 @@
 (setq-default indent-tabs-mode nil)
 (delete-selection-mode 1)
 
-(set-frame-font "FuraCode Nerd Font Mono 10" nil t)
+(set-frame-font "FiraCode Nerd Font Mono 10" nil t)
 
 
 ;; Theme
@@ -138,7 +137,7 @@
   :init (ivy-mode 1)        ; enable ivy globally at startup
   :bind (:map ivy-mode-map  ; bind in the ivy buffer
               ("C-'" . ivy-avy)) ; C-' to ivy-avy
-    :bind*                           ; load counsel when pressed
+  :bind*                           ; load counsel when pressed
   (("M-x"     . counsel-M-x)       ; M-x use counsel
    ("C-x C-f" . counsel-find-file) ; C-x C-f use counsel-find-file
    ("C-x C-r" . counsel-recentf)   ; search recently edited files
@@ -150,7 +149,7 @@
   (setq ivy-use-virtual-buffers t)   ; extend searching to bookmarks and …
   (setq enable-recursive-minibuffers t)
   (setq ivy-height 10)               ; set height of the ivy window
-  (setq ivy-count-format "🍃[%d/%d] ") ; count format, from the ivy help page
+  (setq ivy-count-format "[%d/%d] ") ; count format, from the ivy help page
   )
 
 
@@ -377,18 +376,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("01110bb77a0d911413692d5b7d03a22547d312f300bc688b734e415fe94ffa34" "8b9d422c54bfc82927c6e530d8664b6332938db968d18d1bc14c3da1b4cfd4c4" default)))
+   '("01110bb77a0d911413692d5b7d03a22547d312f300bc688b734e415fe94ffa34" "8b9d422c54bfc82927c6e530d8664b6332938db968d18d1bc14c3da1b4cfd4c4" default))
  '(flycheck-python-flake8-executable "python3")
  '(flycheck-python-pycompile-executable "python3")
  '(flycheck-python-pylint-executable "python3")
  '(package-selected-packages
-   (quote
-    (spaceline-all-the-icons multiple-cursors bazel-mode pretty-mode rust-mode nix-mode toml company-c-headers protobuf-mode beacon yaml-mode impatient-mode markdown-mode+ treemacs cuda-mode dockerfile-mode toml-mode tabbar all-the-icons-dired company flycheck neotree spaceline ace-jump-mode magit expand-region smex ido-complete-space-or-hyphen ido-ubiquitous org-bullets doom-themes use-package)))
+   '(spaceline-all-the-icons multiple-cursors bazel-mode pretty-mode rust-mode nix-mode toml company-c-headers protobuf-mode beacon yaml-mode impatient-mode markdown-mode+ treemacs cuda-mode dockerfile-mode toml-mode tabbar all-the-icons-dired company flycheck neotree spaceline ace-jump-mode magit expand-region smex ido-complete-space-or-hyphen ido-ubiquitous org-bullets doom-themes use-package))
  '(tabbar-mode t nil (tabbar))
- '(tabbar-separator (quote (0.5)))
+ '(tabbar-separator '(0.5))
  '(treemacs-follow-mode t)
- '(treemacs-git-mode (quote extended)))
+ '(treemacs-git-mode 'extended))
 ;; adding spaces
 (defun tabbar-buffer-tab-label (tab)
   "Return a label for TAB.
